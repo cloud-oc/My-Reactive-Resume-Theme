@@ -1,0 +1,369 @@
+/* ========== 明日方舟·终末地 FAQ 风格 - 档案 UI 完美修复版 ========== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&family=Bebas+Neue&display=swap');
+
+/* === 打印和 PDF 导出优化 === */
+@media print {
+    @page {
+        margin: 0;
+        size: A4;
+    }
+
+    body,
+    html {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body {
+        background: linear-gradient(180deg, #FEFA08 0%, rgba(232, 255, 0, 0) 49px, transparent 49px) !important;
+        background-repeat: no-repeat !important;
+    }
+
+    .page-content {
+        margin: 0 !important;
+        padding: 0 20px 20px 20px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .page-header {
+        padding: 25px 20px 0 20px !important;
+        margin-top: 0 !important;
+    }
+
+    /* 隐藏原来的顶部装饰条，使用 body 背景代替 */
+    .page-content::before {
+        display: none !important;
+    }
+
+    .page-content::after {
+        left: 20px !important;
+        right: 20px !important;
+    }
+}
+
+/* 确保页面内容不超出边界 */
+* {
+    box-sizing: border-box;
+}
+
+/* === 全局背景：纯白色 (#FFF) + 科技感网格 === */
+.page-content {
+    position: relative;
+    background-color: #FFFFFF !important;
+    background-image:
+        radial-gradient(circle at center, rgba(0, 0, 0, 0.08) 1.5px, transparent 1.5px),
+        linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(45deg, transparent 49.6%, rgba(0, 0, 0, 0.02) 49.6%, rgba(0, 0, 0, 0.02) 50.4%, transparent 50.4%),
+        linear-gradient(135deg, transparent 49.6%, rgba(0, 0, 0, 0.02) 49.6%, rgba(0, 0, 0, 0.02) 50.4%, transparent 50.4%) !important;
+    background-size: 80px 80px !important;
+    padding-bottom: 20px !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+}
+
+/* === 顶部黄色渐变条 === */
+.page-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 49px;
+    background: linear-gradient(180deg, #FEFA08 0%, rgba(232, 255, 0, 0) 100%);
+    z-index: 100;
+    pointer-events: none;
+}
+
+/* === 1. 个人简介区域 (Header) === */
+.page-header {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 25px 30px 0px 30px !important;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+}
+
+/* 头像装饰容器 */
+.page-picture,
+[data-id="picture"] {
+    position: absolute !important;
+    top: 30px !important;
+    right: 60px !important;
+    width: 140px !important;
+    height: 140px !important;
+    z-index: 50 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 头像图片 - 双层边框（内白外黄） */
+.page-picture img {
+    width: 110px !important;
+    height: 110px !important;
+    border-radius: 50% !important;
+    /* 内层白色边框 */
+    border: 2px solid #ffffff !important;
+    /* 外层黄色边框 */
+    box-shadow:
+        0 0 0 1px #e8ff00,
+        0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    background: white !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* 姓名与标题 */
+.basics-name {
+    font-family: 'Noto Sans SC', sans-serif !important;
+    font-weight: 900 !important;
+    font-size: 2.2rem !important;
+    color: #000000 !important;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 10px;
+}
+
+.basics-name::before {
+    content: '[';
+    color: #797979;
+    font-weight: 900;
+    font-size: 1.2rem;
+}
+
+.basics-name::after {
+    content: ']';
+    color: #797979;
+    font-weight: 900;
+    font-size: 1.2rem;
+}
+
+.basics-headline {
+    color: #888 !important;
+    font-size: 1rem !important;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 25px !important;
+    padding-left: 5px;
+}
+
+/* 二. 三色分割条 (彻底解决宽度与对齐) */
+.basics-items::before {
+    content: '';
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    height: 4px;
+    background: linear-gradient(90deg, #ff00ff 0%, #ff00ff 33.33%, #e8ff00 33.33%, #e8ff00 66.66%, #00ff99 66.66%, #00ff99 100%);
+    margin: 0 0 15px 5px;
+}
+
+/* 3. 核心修复：个人信息项结构优化 */
+.basics-items {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 85% !important;
+    padding-left: 0px;
+}
+
+/* 每一个信息单元 */
+.basics-items>div {
+    display: flex !important;
+    align-items: stretch !important;
+    background: #f2f2f2 !important;
+    /* 灰底 */
+    border: none !important;
+    padding: 0 !important;
+    height: 30px !important;
+    /* 统一高度 */
+    overflow: hidden;
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.05);
+}
+
+/* 强制统一所有图标样式：黑底白字 */
+.basics-items>div i,
+.basics-items>div svg,
+.basics-items>div [class*="icon"] {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    width: 34px !important;
+    /* 适当增加图标方块宽度 */
+    height: 100% !important;
+    padding: 7px !important;
+    /* 调整内边距使图标大小适中 */
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0 !important;
+}
+
+/* 强制修正所有 SVG 图标元素为白色 - 全面覆盖 */
+.basics-items>div svg,
+.basics-items>div svg * {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+}
+
+/* 针对不同类型的 SVG 图标进行精确控制 */
+.basics-items>div svg path,
+.basics-items>div svg circle,
+.basics-items>div svg rect,
+.basics-items>div svg polygon,
+.basics-items>div svg polyline,
+.basics-items>div svg line,
+.basics-items>div svg ellipse {
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+/* 覆盖可能存在的内联样式和属性 */
+.basics-items>div [style*="fill"],
+.basics-items>div [style*="color"],
+.basics-items>div [style*="stroke"] {
+    fill: #ffffff !important;
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+/* 文字/链接部分 */
+.basics-items>div span,
+.basics-items>div a {
+    padding: 0 14px !important;
+    display: flex !important;
+    align-items: center;
+    color: #1a1a1a !important;
+    font-family: 'Noto Sans SC', sans-serif !important;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    line-height: 1 !important;
+}
+
+/* 移除所有模板生成的乱序边框/细线 */
+.basics-items>div {
+    border-right: none !important;
+    border-left: none !important;
+}
+
+/* === 章节标题：平面黑框 + 底部深蓝细边 === */
+h6,
+.section-title {
+    display: flex !important;
+    align-items: center !important;
+    font-family: 'Noto Sans SC', sans-serif !important;
+    font-weight: 900 !important;
+    font-size: 1.4rem !important;
+    color: #ffffff !important;
+    background: #1a1a1a !important;
+    padding: 10px 20px !important;
+    margin: 25px 0 20px 0 !important;
+    position: relative;
+    border-bottom: 2px solid #0077ff !important;
+}
+
+/* 图标黄色方块 */
+h6 svg,
+h6 i,
+.section-title svg,
+.section-title i {
+    background: #e8ff00 !important;
+    color: #000000 !important;
+    fill: #000000 !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-right: 15px !important;
+    border-radius: 2px !important;
+    padding: 6px !important;
+}
+
+/* === 内容卡片 === */
+.section-content {
+    background: #ffffff !important;
+    border: 0.5px solid #dcdcdc !important;
+    padding: 12px 20px !important;
+}
+
+/* === 超链接样式：内联深灰色角标 === */
+a {
+    text-decoration: none !important;
+    position: relative !important;
+    display: inline !important;
+    color: inherit !important;
+}
+
+a::after {
+    content: '⩉' !important;
+    color: #000000 !important;
+    font-size: 1⨂em !important;
+    margin-left: 0.25em !important;
+    display: inline !important;
+    vertical-align: baseline !important;
+    filter: grayscale(100%) !important;
+    opacity: 0.5 !important;
+}
+
+/* 隐藏个人信息区域的超链接角标 */
+.basics-items a::after {
+    content: none !important;
+    display: none !important;
+}
+
+
+
+/* === 文本标注样式 === */
+strong,
+b {
+    color: #000 !important;
+    font-weight: 900 !important;
+}
+
+mark {
+    color: #000 !important;
+    background: linear-gradient(to top, #e8ff00 45%, transparent 45%) !important;
+    padding: 0 2px;
+}
+
+/* === 列表项目符号 === */
+ul li {
+    position: relative;
+    padding-left: 30px !important;
+    counter-increment: step-counter;
+}
+
+ul li::before {
+    content: counter(step-counter, decimal-leading-zero) ".";
+    position: absolute;
+    left: 0;
+    color: #000;
+    font-weight: 900;
+}
+
+/* === 底部彩色条 === */
+.page-content::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: linear-gradient(90deg, #ff00ff 0%, #ff00ff 20%, #e8ff00 20%, #e8ff00 40%, #ff9900 40%, #ff9900 60%, #00ffff 60%, #00ffff 80%, #1a1a1a 80%, #1a1a1a 100%);
+    pointer-events: none;
+}
